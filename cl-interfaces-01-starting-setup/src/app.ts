@@ -1,4 +1,4 @@
-// type AddFc = (a: number, b: number) => number; // 커스텀 타입입
+// type AddFc = (a: number, b: number) => number; // 커스텀 타입
 
 interface AddFc {
 	(a: number, b: number): number; //메서드 이름을 작성하지 않는 익명함수로 정의.
@@ -135,4 +135,4 @@ class Hero implements HeroInfo {
 
 const hero1 = new Hero('아이언맨', 47);
 
-console.log(hero1);
+console.log(hero1); // Hero {name: '아이언맨', age: 47}
