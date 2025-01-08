@@ -214,31 +214,31 @@
 // objStorage.removeItem(nameObj); // nameObj 같은 메모리 주소 사용
 // console.log(objStorage.getItem()); // 0 : {name: '김옥지'}
 
-//두번째 방법 이 타입을 원시 값으로만 작동하게 함
-class DataStorage<T extends string | number | boolean> {
-	private data: T[] = [];
+// //두번째 방법 이 타입을 원시 값으로만 작동하게 함
+// class DataStorage<T extends string | number | boolean> {
+// 	private data: T[] = [];
 
-	addItem(item: T) {
-		this.data.push(item);
-	}
+// 	addItem(item: T) {
+// 		this.data.push(item);
+// 	}
 
-	removeItem(item: T) {
-		if(this.data.indexOf(item) === -1) {
-			return;
-		}
-		this.data.splice(this.data.indexOf(item), 1);
-	}
+// 	removeItem(item: T) {
+// 		if(this.data.indexOf(item) === -1) {
+// 			return;
+// 		}
+// 		this.data.splice(this.data.indexOf(item), 1);
+// 	}
 
-	getItem() {
-		return [...this.data];
-	}
-}
-const nameStorage = new DataStorage<string>();
-nameStorage.addItem('빵빵이');
-nameStorage.addItem('김옥지');
-nameStorage.removeItem('빵빵이');
+// 	getItem() {
+// 		return [...this.data];
+// 	}
+// }
+// const nameStorage = new DataStorage<string>();
+// nameStorage.addItem('빵빵이');
+// nameStorage.addItem('김옥지');
+// nameStorage.removeItem('빵빵이');
 
-console.log(nameStorage.getItem()); // ['김옥지']
+// console.log(nameStorage.getItem()); // ['김옥지']
 
 //이렇듯 유연하게 적용하면 되고 제약 조건도 자유롭게 사용하면 된다
 //전박적으로 제네릭타입은 개발자가 코딩을 더 수월하게 할 수 있도록 해주고 어떤 조합이든
@@ -248,3 +248,93 @@ console.log(nameStorage.getItem()); // ['김옥지']
 //제네릭 타입과 유니온 타입의 차이점
 //제네릭은 호출할 때 여러 타입중 하나를 활용해 호출하는 함수를 만든다면
 // 유니온 타입은 여러 타입을 다 사용할 수 있는 타입
+
+// function Hero(name: string | null): string {
+// 	return `HiHi, ${name.toUpperCase()}`;
+// }
+
+// Hero('dongHyeon');
+
+function Hero(name: string | null): string {
+	if(!name) {
+    return `null`
+  };
+  
+  return `HiHi, ${name.toUpperCase()}`
+ 
+}
+
+Hero('dongHyeon');
+
+// function sendEmail({
+//   recipient: User,
+//   subject: string,
+//   message: string,
+// }) {
+//   console.log(`Sending email to ${User.name}: ${string} - ${string}`);
+// }
+
+// // 호출
+// sendEmail({
+//   recipient: { name: "Alice", email: "alice@example.com" },
+//   subject: "Hello",
+//   message: "How are you?",
+// });
+
+// interface User {
+//   name: string;
+//   email: string;
+// }
+
+// function sendEmail({
+//   recipient,
+//   subject,
+//   message,
+// }: {
+//   recipient: User;
+//   subject: string;
+//   message: string;
+// }) {
+// 	console.log(`Sending email to ${recipient.name}: ${subject} - ${message}`);}
+
+// // 호출
+// sendEmail({
+//   recipient: { name: "Alice", email: "alice@example.com" },
+//   subject: "Hello",
+//   message: "How are you?",
+// });
+
+// const obj: object = {name: 'kim', age: 25};
+
+// console.log(obj.name); // ❌ 'object' 형식에 'name' 속성이 없습니다.
+
+// function logObj(data: object) {
+// 	console.log(data.key, data.name); //❌ 'key', 'name' 속성이 존재하는지 알 수 없음
+// }
+
+// logObj({key: 1, name: '옥지'});
+
+// const data:object = [1, 2, 3]; // 배열도 'object' 타입
+// const func:object = () => {};  // 함수도 'object' 타입
+
+interface Cube {
+  width: number;
+  height: number;
+  depth: number;
+}
+
+function addLines(c: Cube) {
+  let total = 0;
+  for (const axis of Object.keys(c) as (keyof Cube)[]) {
+    const length = c[axis];
+    total += length;
+  }
+}
+
+const myCube = {
+  width: 6,
+  height: 5,
+  depth: 4,
+};
+
+addLines(myCube);

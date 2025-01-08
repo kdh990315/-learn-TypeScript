@@ -32,10 +32,10 @@ const el:ElevatedEmployee = {
 	startDate: new Date()
 }
 
-type Combinable = string | number;
-type Numeric = number | boolean;
+// type Combinable = string | number;
+// type Numeric = number | boolean;
 
-type Universal = Combinable & Numeric;
+// type Universal = Combinable & Numeric;
 //두 타입의 교차 타입이 타입이 된다.
 
 
@@ -47,29 +47,29 @@ type Universal = Combinable & Numeric;
 // }
 // //a와 b의 타입이 명확하지 않아서 오류가 난다.
 
-function add(a: Combinable, b: Combinable) {
-	if(typeof a === 'string' || typeof b === 'string') {
-		return a.toString() + b.toString();
-	}
-	return a + b;
-}
+// function add(a: Combinable, b: Combinable) {
+// 	if(typeof a === 'string' || typeof b === 'string') {
+// 		return a.toString() + b.toString();
+// 	}
+// 	return a + b;
+// }
 
-//위처럼 타입가드는 typeof를 활용한다.
+// //위처럼 타입가드는 typeof를 활용한다.
 
-type UnknownEmployee = Employee | Admin;
+// type UnknownEmployee = Employee | Admin;
 
-function printEmployeeInfomation(emp: UnknownEmployee) {
-	console.log("Name" + emp.name); 
-	if('privileges' in emp) {
-		console.log("Privileges" + emp.privileges);
-	}
-	if('startDate' in emp) {
-		console.log('Start Date' + emp.startDate);
-	}
-}
-//'privileges' in emp 이건 자바스크립트 코드인데 empp로 받은 객체에 속성으로 존재하는지 확인함.
+// function printEmployeeInfomation(emp: UnknownEmployee) {
+// 	console.log("Name" + emp.name); 
+// 	if('privileges' in emp) {
+// 		console.log("Privileges" + emp.privileges);
+// 	}
+// 	if('startDate' in emp) {
+// 		console.log('Start Date' + emp.startDate);
+// 	}
+// }
+// //'privileges' in emp 이건 자바스크립트 코드인데 empp로 받은 객체에 속성으로 존재하는지 확인함.
 
-printEmployeeInfomation(el)
+// printEmployeeInfomation(el)
 
 
 // function printEmployeeInfomation(emp: UnknownEmployee) {
@@ -227,11 +227,48 @@ moveAnimal({type: 'bird', flyingSeepd: 10})
 //인덱스 속성
 //인덱스 속성은 객체를 생성할 때 유용하다.
 //객체의 속성 관련해서 보다 유연한 객체를 만들 때.
-interface ErrorConainer {
-	[prop: string]: string;
+// interface ErrorConainer {
+// 	[prop: string]: string;
+// }
+
+// const errorBag: ErrorConainer = {
+// 	email: "not a valid email!",
+// 	username: "Must start with a capital character!"
+// }
+
+
+
+//함수 오버로드
+//여러 함수 시그니처를 정의할 수 있게 해주는데, 하나의 함수를 두고 한 함수를 다양한 방식으로 
+//호출할 수 있다는 이야기임. 다른 인자들을 넣어 호출해 그에 따라 함수 안에서 뭔가를 실행한다.
+type Combinable = string | number;
+type Numeric = number | boolean;
+
+type Universal = Combinable & Numeric;
+
+function add(a:number, b:number): number;
+function add(a:string, b:string): string;
+function add(a:number, b:string): string;
+function add(a:string, b:number): string;
+function add(a: Combinable, b: Combinable) {
+	if(typeof a === 'string' || typeof b === 'string') {
+		return a.toString() + b.toString();
+	}
+	return a + b;
 }
 
-const errorBag: ErrorConainer = {
-	email: "not a valid email!",
-	username: "Must start with a capital character!"
-}
+// const result = add('a', 'b') as string;
+// result.split('');
+const result = add('a', 'b');
+result.split('');
+//add함수에 1,5를 넣어 호출하면 반환값의 타입은 string | number이라고 나온다.
+//즉 타입스크립트는 result가 number인지 string인지 모른다.
+//이게 왜 중요하냐면 add함수에 'a'와''b'를 넣는다고 하면 분명 문자열이 반환되어 문자열 메서드를
+//사용할 수 있어야하는데 사용하지 못한다.
+//물론 형변환을 활용하면 가능. 하지만 코드를 매번 추가해줘야하는 번거로움이 있음.
+
+//이떄 함수 오버로드를 활용하는데 함수 오버로드는 대상 함수 바로 위에 써준다. 대상 함수랑 같은 이름으로.
+//이걸 언제 사용하느냐? 타입스크립트가 스스로 반환값 타입을 식별할 수 없을 때.
+
+
+//옵셔널 체이닝
